@@ -3,6 +3,15 @@
 @section('header')
     <!-- css search -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <style>
+        .datepicker-modal{
+            max-height: 430px !important;
+        }
+        .datepicker-date-display{
+            background-color: #1E74FD !important;
+        }
+
+    </style>
     <!-- App Header -->
     <div class="appHeader bg-primary text-light">
         <div class="left">
