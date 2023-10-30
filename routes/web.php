@@ -42,4 +42,9 @@ Route::middleware(['auth:pegawai'])->group(function () {
     //history
     Route::get('/presensi/history', [presensiController::class, 'history']);
     Route::post('/getHistory', [presensiController::class, 'getHistory']);
+
+    //izin
+    Route::get('/presensi/izin', [presensiController::class,'izin']);
+    Route::get('/presensi/createIzin', [presensiController::class, 'createIzin']);
+    Route::post('/presensi/storeIzin', [presensiController::class, 'storeIzin']);
 });
