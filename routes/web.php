@@ -31,8 +31,15 @@ Route::middleware(['auth:pegawai'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/logoutProcess', [AuthController::class, 'logoutProcess']);
 
+    //presensi
     Route::get('/presensi/create', [presensiController::class, 'create']);
     Route::post('/presensi/store', [presensiController::class, 'store']);
+
+    //edit profile
     Route::get('/editProfile', [presensiController::class, 'editProfile']);
     Route::post('/presensi/{nuptk}/updateProfile', [presensiController::class, 'updateProfile']);
+
+    //history
+    Route::get('/presensi/history', [presensiController::class, 'history']);
+    Route::post('/getHistory', [presensiController::class, 'getHistory']);
 });
