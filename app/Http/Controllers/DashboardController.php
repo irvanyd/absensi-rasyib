@@ -51,6 +51,19 @@ class DashboardController extends Controller
 
     public function dashboardAdmin()
     {
-        return view('dashboard.dashboardAdmin');
+        $hariini = date("Y-m-d");
+        $rekappresensi = DB::table('presensi')
+        ->selectRaw('COUNT(nuptk) as jmlhadir, SUM(IF(jam_in > "07:00",1,0)) as jmlterlambat')
+        ->selectRaw('SUM(IF(jam_in != "" && jam_out != "",1,0)) as jmlkehadiran')
+        ->where('tgl_presensi', $hariini)
+        ->first();
+
+        $rekapizin = DB::table('pengajuan_izin')
+        ->selectRaw('SUM(IF(status="i",1,0)) as jmlizin, SUM(IF(status="s",1,0)) as jmlsakit')
+        ->where('tgl_izin', $hariini)
+        ->where('status_pengajuan', 1)
+        ->first();
+
+        return view('dashboard.dashboardAdmin', compact('rekappresensi', 'rekapizin'));
     }
 }
