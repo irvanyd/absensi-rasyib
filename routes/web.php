@@ -18,12 +18,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-//back to dashboard if login condition
+//back to dashboard if login condition (pegawai)
 Route::middleware(['guest:pegawai'])->group(function () {
     Route::get('/', function () {
         return view('auth.login');
     })->name('login');
     Route::post('/loginProcess', [AuthController::class, 'loginProcess']);
+});
+
+//back to dashboard if login condition (admin)
+Route::middleware(['guest:user'])->group(function () {
+    Route::get('/panel', function () {
+        return view('auth.loginAdmin');
+    })->name('loginAdmin');
 });
 
 //grouping pegawai access
@@ -47,4 +54,8 @@ Route::middleware(['auth:pegawai'])->group(function () {
     Route::get('/presensi/izin', [presensiController::class,'izin']);
     Route::get('/presensi/createIzin', [presensiController::class, 'createIzin']);
     Route::post('/presensi/storeIzin', [presensiController::class, 'storeIzin']);
+
 });
+
+//grouping pegawai access
+Route::get('/dashboardAdmin', [DashboardController::class,'dashboardAdmin']);
