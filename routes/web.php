@@ -31,6 +31,7 @@ Route::middleware(['guest:user'])->group(function () {
     Route::get('/panel', function () {
         return view('auth.loginAdmin');
     })->name('loginAdmin');
+    Route::post('/adminLoginProcess', [AuthController::class, 'adminLoginProcess']);
 });
 
 //grouping pegawai access
@@ -58,4 +59,11 @@ Route::middleware(['auth:pegawai'])->group(function () {
 });
 
 //grouping pegawai access
-Route::get('/dashboardAdmin', [DashboardController::class,'dashboardAdmin']);
+Route::middleware(['auth:user'])->group(function () {
+    Route::get('/panel/dashboardAdmin', [DashboardController::class,'dashboardAdmin']);
+    Route::get('/adminLogoutProcess', [AuthController::class, 'adminLogoutProcess']);
+
+});
+
+
+
