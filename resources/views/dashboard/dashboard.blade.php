@@ -27,7 +27,7 @@
             <div class="list-menu">
                 <div class="item-menu text-center">
                     <div class="menu-icon">
-                        <a href="" class="green" style="font-size: 40px;">
+                        <a href="/editProfile" class="green" style="font-size: 40px;">
                             <ion-icon name="person-sharp"></ion-icon>
                         </a>
                     </div>
@@ -37,17 +37,17 @@
                 </div>
                 <div class="item-menu text-center">
                     <div class="menu-icon">
-                        <a href="" class="danger" style="font-size: 40px;">
+                        <a href="/presensi/izin" class="danger" style="font-size: 40px;">
                             <ion-icon name="calendar-number"></ion-icon>
                         </a>
                     </div>
                     <div class="menu-name">
-                        <span class="text-center">Cuti</span>
+                        <span class="text-center">Izin</span>
                     </div>
                 </div>
                 <div class="item-menu text-center">
                     <div class="menu-icon">
-                        <a href="" class="warning" style="font-size: 40px;">
+                        <a href="/presensi/history" class="warning" style="font-size: 40px;">
                             <ion-icon name="document-text"></ion-icon>
                         </a>
                     </div>
@@ -62,7 +62,7 @@
                         </a>
                     </div>
                     <div class="menu-name">
-                        Lokasi
+                        <span class="text-center">Lokasi</span>
                     </div>
                 </div>
             </div>
