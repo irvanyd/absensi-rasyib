@@ -26,6 +26,7 @@ class DashboardController extends Controller
             
         $rekappresensi = DB::table('presensi')
         ->selectRaw('COUNT(nuptk) as jmlhadir, SUM(IF(jam_in > "07:00",1,0)) as jmlterlambat')
+        ->selectRaw('SUM(IF(jam_in != "" && jam_out != "",1,0)) as jmlkehadiran')
         ->where('nuptk', $nuptk)
         ->whereRaw('MONTH(tgl_presensi)="' . $bulanini . '"')
         ->whereRaw('YEAR(tgl_presensi)="' . $tahunini . '"')
