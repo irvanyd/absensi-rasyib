@@ -1,5 +1,19 @@
 @extends('layouts.presensi')
 
+<style>
+    .logout {
+        position: absolute;
+        color: white;
+        font-size: 30px;
+        text-decoration: none;
+        right: 15px;
+    }
+
+    .logout:hover {
+        color: white;
+    }
+</style>
+
 @section('header')
     <!-- App Header -->
     <div class="appHeader bg-primary text-light">
@@ -8,7 +22,11 @@
                 <ion-icon name="chevron-back-outline"></ion-icon>
             </a>
         </div>
-        <div class="pageTitle">Edit Profile</div>
+        <div class="pageTitle">Edit Profile
+            <a href="/logoutProcess" class="logout">
+                <ion-icon name="exit-outline"></ion-icon>
+            </a>
+        </div>
         <div class="right"></div>
     </div>
     <!-- * App Header -->
