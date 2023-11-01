@@ -43,7 +43,7 @@ return [
 
         'pegawai' => [
             'driver' => 'session',
-            'provider' => 'kepegawaian',
+            'provider' => 'pegawais',
         ],
 
         'user' => [
@@ -75,9 +75,9 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'kepegawaian' => [
+        'pegawais' => [
             'driver' => 'eloquent',
-            'model' => App\Models\pegawai::class,
+            'model' => App\Models\Pegawai::class,
         ],
 
 

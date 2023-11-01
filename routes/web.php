@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\presensiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,9 @@ Route::middleware(['auth:pegawai'])->group(function () {
 Route::middleware(['auth:user'])->group(function () {
     Route::get('/panel/dashboardAdmin', [DashboardController::class,'dashboardAdmin']);
     Route::get('/adminLogoutProcess', [AuthController::class, 'adminLogoutProcess']);
+
+    //pegawai
+    Route::get('/pegawai', [PegawaiController::class, 'index']);
 
 });
 
