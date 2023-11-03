@@ -245,7 +245,10 @@
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="/pegawai">
-                                    Data Pegawai
+                                    Pegawai
+                                </a>
+                                <a class="dropdown-item" href="/departemen">
+                                    Departemen
                                 </a>
                             </div>
                         </div>

@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\presensiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\presensiController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartemenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,13 @@ Route::middleware(['auth:user'])->group(function () {
     Route::post('/pegawai/edit', [PegawaiController::class,'edit']);
     Route::post('/pegawai/{nuptk}/update', [PegawaiController::class,'update']);
     Route::post('/pegawai/{nuptk}/delete', [PegawaiController::class,'delete']);
+
+    //departemen
+    Route::get('/departemen', [DepartemenController::class,'index']);
+    Route::post('/departemen/store', [DepartemenController::class,'store']);
+    Route::post('/departemen/edit', [DepartemenController::class,'edit']);
+    Route::post('/departemen/{kode_dept}/update', [DepartemenController::class,'update']);
+    Route::post('/departemen/{kode_dept}/delete', [DepartemenController::class,'delete']);
 });
 
 
