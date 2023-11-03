@@ -125,7 +125,51 @@
                                                         @endif
                                                     </td>
                                                     <td>{{ $d->nama_dept }}</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="#" class="edit btn btn-info btn-sm"
+                                                                nuptk="{{ $d->nuptk }}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="icon icon-tabler icon-tabler-edit" width="24"
+                                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                                    stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                    </path>
+                                                                    <path
+                                                                        d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1">
+                                                                    </path>
+                                                                    <path
+                                                                        d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z">
+                                                                    </path>
+                                                                    <path d="M16 5l3 3"></path>
+                                                                </svg>
+                                                            </a>
+                                                            <form action="/pegawai/{{ $d->nuptk }}/delete" method="POST"
+                                                                style="margin-left: 5px">
+                                                                @csrf
+                                                                <a class="btn btn-danger btn-sm delete-confirm">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        class="icon icon-tabler icon-tabler-trash"
+                                                                        width="24" height="24" viewBox="0 0 24 24"
+                                                                        stroke-width="2" stroke="currentColor"
+                                                                        fill="none" stroke-linecap="round"
+                                                                        stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z"
+                                                                            fill="none"></path>
+                                                                        <path d="M4 7l16 0"></path>
+                                                                        <path d="M10 11l0 6"></path>
+                                                                        <path d="M14 11l0 6"></path>
+                                                                        <path
+                                                                            d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
+                                                                        </path>
+                                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3">
+                                                                        </path>
+                                                                    </svg>
+                                                                </a>
+                                                            </form>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -139,6 +183,20 @@
             </div>
         </div>
     </div>
+    {{-- modal edit pegawai --}}
+    <div class="modal modal-blur fade" id="modal-editpegawai" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data Pegawai</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="loadEditForm">
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- modal input pegawai --}}
     <div class="modal modal-blur fade" id="modal-inputpegawai" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -281,6 +339,46 @@
             $("#btnTambahPegawai").click(function() {
                 $("#modal-inputpegawai").modal("show");
             });
+
+            $(".edit").click(function() {
+                var nuptk = $(this).attr('nuptk');
+                $.ajax({
+                    type: 'POST',
+                    url: '/pegawai/edit',
+                    cache: false,
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        nuptk: nuptk
+                    },
+                    success: function(respond) {
+                        $("#loadEditForm").html(respond);
+                    }
+                });
+                $("#modal-editpegawai").modal("show");
+            });
+
+            $(".delete-confirm").click(function(e) {
+                var form = $(this).closest('form');
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Apakah anda yakin?',
+                    text: "Data anda akan terhapus permanen",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus data'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                        Swal.fire(
+                            'Deleted!',
+                            'Data berhasil dihapus',
+                            'success'
+                        )
+                    }
+                });
+            });
         });
 
         $(function() {
@@ -330,7 +428,7 @@
                         $("#no_hp").focus();
                     });
                     return false;
-                } 
+                }
             });
         });
     </script>
