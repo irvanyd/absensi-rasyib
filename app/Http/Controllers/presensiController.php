@@ -149,8 +149,21 @@ class presensiController extends Controller
 
     public function history()
     {
-        $namabulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", 
-                    "Agustus", "September", "Oktober", "November", "Desember"];
+        $namabulan = [
+            "",
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+        ];
         return view('presensi.history', compact('namabulan'));
     }
 
@@ -161,11 +174,11 @@ class presensiController extends Controller
         $nuptk = Auth::guard('pegawai')->user()->nuptk;
 
         $history = DB::table('presensi')
-        ->whereRaw('MONTH(tgl_presensi)="' . $bulan . '"')
-        ->whereRaw('YEAR(tgl_presensi)="' . $tahun . '"')
-        ->where('nuptk', $nuptk)
-        ->orderBy('tgl_presensi')
-        ->get();
+            ->whereRaw('MONTH(tgl_presensi)="' . $bulan . '"')
+            ->whereRaw('YEAR(tgl_presensi)="' . $tahun . '"')
+            ->where('nuptk', $nuptk)
+            ->orderBy('tgl_presensi')
+            ->get();
 
         return view('presensi.gethistory', compact('history'));
     }
@@ -179,7 +192,7 @@ class presensiController extends Controller
 
     public function createIzin()
     {
-        
+
         return view('presensi.createIzin');
     }
 
@@ -200,9 +213,9 @@ class presensiController extends Controller
         $simpan = DB::table('pengajuan_izin')->insert($dataIzin);
 
         if ($simpan) {
-            return redirect('/presensi/izin')->with(['success'=>'Data berhasil disimpan']);
+            return redirect('/presensi/izin')->with(['success' => 'Data berhasil disimpan']);
         } else {
-            return redirect('/presensi/izin')->with(['error'=>'Data gagal disimpan']);
+            return redirect('/presensi/izin')->with(['error' => 'Data gagal disimpan']);
         }
     }
 
@@ -215,12 +228,21 @@ class presensiController extends Controller
     {
         $tanggal = $request->tanggal;
         $presensi = DB::table('presensi')
-        ->select('presensi.*', 'nama_lengkap', 'nama_dept')
-        ->join('pegawai', 'presensi.nuptk', '=', 'pegawai.nuptk')
-        ->join('departemen','pegawai.kode_dept','=','departemen.kode_dept')
-        ->where('tgl_presensi', $tanggal)
-        ->get();
+            ->select('presensi.*', 'nama_lengkap', 'nama_dept')
+            ->join('pegawai', 'presensi.nuptk', '=', 'pegawai.nuptk')
+            ->join('departemen', 'pegawai.kode_dept', '=', 'departemen.kode_dept')
+            ->where('tgl_presensi', $tanggal)
+            ->get();
 
         return view('presensi.getPresensi', compact('presensi'));
+    }
+
+    public function tampilkanpeta(Request $request)
+    {
+        $id = $request->id;
+        $presensi = DB::table('presensi')->where('id', $id)
+            ->join('pegawai', 'presensi.nuptk', '=', 'pegawai.nuptk')
+            ->first();
+        return view('presensi.showmap', compact('presensi'));
     }
 }
