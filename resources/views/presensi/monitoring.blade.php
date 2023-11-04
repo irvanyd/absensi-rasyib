@@ -1,6 +1,7 @@
 @extends('layouts.admin.tabler')
 
 @section('content')
+    
     <!-- header content -->
     <div class="page-header d-print-none">
         <div class="container-xl">
@@ -39,7 +40,7 @@
                                                 <path d="M20.2 20.2l1.8 1.8"></path>
                                             </svg>
                                         </span>
-                                        <input type="text" id="tanggal" name="tanggal" value=""
+                                        <input type="text" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}"
                                             class="form-control" placeholder="Tanggal Presensi" autocomplete="off">
                                     </div>
                                 </div>
@@ -76,26 +77,33 @@
 
 @push('myscript')
     <script>
-        $("#tanggal").datepicker({
-            autoclose: true,
-            todayHighlight: true,
-            format: 'yyyy-mm-dd'
-        });
-
-        $("#tanggal").change(function(e) {
-            var tanggal = $(this).val();
-            $.ajax({
-                type: 'POST',
-                url: '/getPresensi',
-                data: {
-                    _token : "{{ csrf_token() }}",
-                    tanggal : tanggal
-                },
-                cache: false,
-                success: function(respond) {
-                    $("#loadPresensi").html(respond);
-                }
+        $(function() {
+            $("#tanggal").datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                format: 'yyyy-mm-dd'
             });
+
+            function loadPresensi() {
+                var tanggal = $("#tanggal").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/getPresensi',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        tanggal: tanggal
+                    },
+                    cache: false,
+                    success: function(respond) {
+                        $("#loadPresensi").html(respond);
+                    }
+                });
+            }
+            $("#tanggal").change(function(e) {
+                loadPresensi();
+            });
+
+            loadPresensi();
         });
     </script>
 @endpush
