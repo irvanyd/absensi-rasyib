@@ -185,7 +185,8 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
                     aria-label="Open user menu">
-                    <span class="avatar avatar-sm" style="background-image: url({{ asset('tabler/static/avatars/000m.jpg') }})"></span>
+                    <span class="avatar avatar-sm"
+                        style="background-image: url({{ asset('tabler/static/avatars/000m.jpg') }})"></span>
                     <div class="d-none d-xl-block ps-2">
                         <div>Paweł Kuna</div>
                         <div class="mt-1 small text-secondary">UI Designer</div>
@@ -258,19 +259,57 @@
                     <a class="nav-link" href="/presensi/monitoring">
                         <span
                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart-rate-monitor" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-heart-rate-monitor" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M3 4m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z"></path>
+                                <path
+                                    d="M3 4m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z">
+                                </path>
                                 <path d="M7 20h10"></path>
                                 <path d="M9 16v4"></path>
                                 <path d="M15 16v4"></path>
                                 <path d="M7 10h2l2 3l2 -6l1 3h3"></path>
-                             </svg>
+                            </svg>
                         </span>
                         <span class="nav-link-title">
                             Monitoring Presensi
                         </span>
                     </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
+                        data-bs-auto-close="false" role="button" aria-expanded="false">
+                        <span
+                            class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-file-description" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                <path d="M9 17h6"></path>
+                                <path d="M9 13h6"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Laporan
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-menu-columns">
+                            <div class="dropdown-menu-column">
+                                <a class="dropdown-item" href="/presensi/laporan">
+                                    Presensi
+                                </a>
+                                <a class="dropdown-item" href="/departemen">
+                                    Rekap Presensi
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>

@@ -245,4 +245,57 @@ class presensiController extends Controller
             ->first();
         return view('presensi.showmap', compact('presensi'));
     }
+
+    public function laporan()
+    {
+        $namabulan = [
+            "",
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+        ];
+        $pegawai = DB::table('pegawai')->orderBy('nama_lengkap')->get();
+        return view('presensi.laporan', compact('namabulan', 'pegawai'));
+    }
+
+    public function cetakLaporan(Request $request)
+    {
+        $nuptk = $request->nuptk;
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+        $namabulan = [
+            "",
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+        ];
+        $pegawai = DB::table('pegawai')->where('nuptk', $nuptk)
+            ->join('departemen', 'pegawai.kode_dept', '=', 'departemen.kode_dept')
+            ->first();
+
+        $presensi = DB::table('presensi')
+            ->where('nuptk', $nuptk)
+            ->whereRaw('MONTH(tgl_presensi)="' . $bulan . '"')
+            ->whereRaw('YEAR(tgl_presensi)="' . $tahun . '"')
+            ->get();
+        return view('presensi.cetakLaporan', compact('bulan', 'tahun', 'namabulan', 'pegawai', 'presensi'));
+    }
 }
