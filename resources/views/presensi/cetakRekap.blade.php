@@ -47,6 +47,7 @@
             width: 100%;
             margin-top: 20px;
             border-collapse: collapse;
+            font-size: 10px;
         }
 
         .tabelPresensi tr th {
@@ -70,7 +71,7 @@
 <!-- Set "A5", "A4" or "A3" for class name -->
 <!-- Set also "landscape" if you need -->
 
-<body class="A4">
+<body class="A4 landscape">
     @php
         function selisih($jam_masuk, $jam_keluar)
         {
@@ -94,13 +95,14 @@
 
         <table style="width: 100%">
             <tr>
+                <td style="width: 160px"></td>
                 <td style="width: 30px">
                     <img src="{{ asset('assets/img/logomaarif.png') }}" width="120" height="90" alt="">
                 </td>
                 <td>
                     <center>
                         <article class="format3">
-                            LAPORAN PRESENSI GURU DAN STAFF<br>
+                            REKAP PRESENSI GURU DAN STAFF<br>
                             PERIODE {{ strtoupper($namabulan[$bulan]) }} {{ $tahun }}
                         </article>
                         <article class="format2">
@@ -115,95 +117,63 @@
                 <td style="width: 30px">
                     <img src="{{ asset('assets/img/logomi.png') }}" width="90" height="90" alt="">
                 </td>
+                <td style="width: 160px"></td>
             </tr>
         </table>
-        <table class="tabelPegawai">
-            <hr>
-            <tr>
-                <td rowspan="6">
-                    @php
-                        $path = Storage::url('uploads/pegawai/' . $pegawai->foto);
-                    @endphp
-                    @if ($pegawai->foto != null)
-                    <img src="{{ url($path) }}" alt="" width="110" height="150">
-                    @else
-                    <img src="{{ asset('assets/img/noprofile.jpeg') }}" width="110" height="150" alt="">
-                    @endif
-                </td>
-            </tr>
-            <tr>
-                <td>Nama Guru/Staff</td>
-                <td>:</td>
-                <td>{{ $pegawai->nama_lengkap }}</td>
-            </tr>
-            <tr>
-                <td>Jabatan</td>
-                <td>:</td>
-                <td>{{ $pegawai->jabatan }}</td>
-            </tr>
-            <tr>
-                <td>Departemen</td>
-                <td>:</td>
-                <td>{{ $pegawai->nama_dept }}</td>
-            </tr>
-            <tr>
-                <td>Nomor Handphone</td>
-                <td>:</td>
-                <td>{{ $pegawai->no_hp }}</td>
-            </tr>
-        </table>
+        <hr>
         <table class="tabelPresensi">
-            <hr>
             <tr>
-                <th>No.</th>
-                <th>Tanggal</th>
-                <th>Jam Masuk</th>
-                <th>Foto</th>
-                <th>Jam Pulang</th>
-                <th>Foto</th>
-                <th>Keterangan</th>
-                <th>Jam Kerja</th>
+                <th rowspan="2">NUPTK</th>
+                <th rowspan="2">Nama Pegawai</th>
+                <th colspan="31">Tanggal</th>
+                <th rowspan="2">TH</th>
+                <th rowspan="2">TT</th>
             </tr>
-            @foreach ($presensi as $d)
-                @php
-                    $path_in = Storage::url('uploads/absensi/' . $d->foto_in);
-                    $path_out = Storage::url('uploads/absensi/' . $d->foto_out);
-                    $jamterlambat = selisih('07:00:00', $d->jam_in);
-                @endphp
-                <tr>
-                    <td>{{ $loop->iteration . '.' }}</td>
-                    <td>{{ date('d-m-Y', strtotime($d->tgl_presensi)) }}</td>
-                    <td>{{ $d->jam_in }}</td>
-                    <td><img src="{{ url($path_in) }}" alt="" class="foto"></td>
-                    <td>{{ $d->jam_out != null ? $d->jam_out : 'Belum Absen' }}</td>
-                    <td>
-                        @if ($d->jam_out != null)
-                            <img src="{{ url($path_out) }}" alt="" class="foto">
-                        @else
-                            <img src="{{ asset('assets/img/noprofile.jpeg') }}" class="foto" alt="">
-                        @endif
-                    </td>
-                    <td>
-                        @if ($d->jam_in > '07:00')
-                            Terlambat {{ $jamterlambat }}
-                        @else
-                            Tepat Waktu
-                        @endif
-                    </td>
-                    <td>
-                        @if ($d->jam_out != null)
-                            @php
-                                $jamKerja = selisih($d->jam_in, $d->jam_out);
-                            @endphp
-                        @else
-                            @php
-                                $jamKerja = 0 . " j";
-                            @endphp
-                        @endif
-                        {{ $jamKerja }}
-                    </td>
+            <tr>
+                <?php
+                for ($day=1; $day<=31 ; $day++) { 
+                ?>
+                <th>{{ $day }}</th>
+                <?php     
+                }
+                ?>
+            </tr>
+            @foreach ($rekap as $d)
+                <tr style="text-align: center">
+                    <td>{{ $d->nuptk }}</td>
+                    <td>{{ $d->nama_lengkap }}</td>
+                    @php
+                        $totalHadir = 0;
+                        $totalTerlambat = 0;
+                    @endphp
+                    @for ($day = 1; $day <= 31; $day++)
+                        <td style="color: {{ $d->{'tgl_' . $day} == null ? 'red' : 'black' }}">
+                            @if ($d->{'tgl_' . $day} == null)
+                                &#10006; <!-- Silang (red X) -->
+                            @else
+                                &#10004; <!-- Ceklis (checkmark) -->
+                                @if ($d->{'tgl_' . $day} >= '07:00:00')
+                                    &#33; <!-- Warning (checkmark) -->
+                                    <!-- Contoh batas terlambat pukul 07:00:00 -->
+                                    @php
+                                        $totalTerlambat++;
+                                    @endphp
+                                @endif
+                                @php
+                                    $totalHadir++;
+                                @endphp
+                            @endif
+                        </td>
+                    @endfor
+                    <td>{{ $totalHadir }}</td>
+                    <td>{{ $totalTerlambat }}</td>
                 </tr>
             @endforeach
+        </table>
+        <table class="format1" style="margin-top: 10px">
+            <tr>
+                <td>Note : &#10004; = Tepat Waktu | &#10004;&#33; = Terlambat | &#10006; = Tidak Hadir</td>
+            </tr>
         </table>
         <table width="100%" style="margin-top:150px; margin-left:30px">
             <tr>
@@ -216,7 +186,6 @@
                 </td>
             </tr>
         </table>
-
     </section>
 
 </body>
