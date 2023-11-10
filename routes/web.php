@@ -7,6 +7,7 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\presensiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartemenController;
+use App\Http\Controllers\KonfigurasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,10 @@ Route::middleware(['auth:user'])->group(function () {
     Route::post('/presensi/cetakLaporan', [PresensiController::class,'cetakLaporan']);
     Route::get('/presensi/rekap', [PresensiController::class,'rekap']);
     Route::post('/presensi/cetakRekap', [PresensiController::class,'cetakRekap']);
+
+    //Konfigurasi
+    Route::get('/konfigurasi/lokasiKantor', [KonfigurasiController::class,'lokasiKantor']);
+    Route::post('/konfigurasi/updateLokasiKantor', [KonfigurasiController::class,'updateLokasiKantor']);
 
 });
 
