@@ -59,7 +59,7 @@
                                             <select name="nuptk" id="nuptk" class="form-select">
                                                 <option value="">Pilih Karyawan</option>
                                                 @foreach ($pegawai as $d)
-                                                <option value="{{ $d->nuptk }}">{{ $d->nama_lengkap }}</option>
+                                                    <option value="{{ $d->nuptk }}">{{ $d->nama_lengkap }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -68,7 +68,8 @@
                                 <div class="row mt-2">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <button type="submit" name="cetak" class="btn btn-primary w-100">
+                                            <button type="submit" name="cetak" class="btn btn-primary w-100"
+                                                id="btnCetak">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                     class="icon icon-tabler icon-tabler-printer" width="24"
                                                     height="24" viewBox="0 0 24 24" stroke-width="2"
@@ -116,3 +117,38 @@
         </div>
     </div>
 @endsection
+
+{{-- <div class="row mt-2">
+    <div class="col-12">
+        <div class="form-group">
+            <select name="nuptk" id="nuptk" class="form-select">
+                <option value="">Pilih Karyawan</option>
+                @foreach ($pegawai as $d)
+                    <option value="{{ $d->nuptk }}">{{ $d->nama_lengkap }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div> --}}
+
+@push('myscript')
+    <script>
+        $(function() {
+            $("#btnCetak").click(function(e) {
+                e.preventDefault();
+                var nuptk = $("#nuptk").val();
+                if (nuptk === "") {
+                    Swal.fire({
+                        title: 'Oops!',
+                        text: 'Pilih Nama Pegawai',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    // Form submission if the employee name is selected
+                    $(this).closest('form').submit();
+                }
+            });
+        });
+    </script>
+@endpush
