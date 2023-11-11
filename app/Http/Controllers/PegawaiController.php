@@ -18,7 +18,7 @@ class PegawaiController extends Controller
         $query->select('pegawai.*', 'nama_dept');
         $query->join('departemen', 'pegawai.kode_dept', '=', 'departemen.kode_dept');
         $query->orderBy('nama_lengkap');
-        $pegawai = $query->paginate(3);
+        $pegawai = $query->paginate(5);
         if (!empty($request->nama_pegawai)) {
             $query->where('nama_lengkap', 'like', '%' . $request->nama_pegawai . '%');
         }
@@ -26,7 +26,7 @@ class PegawaiController extends Controller
         if (!empty($request->kode_dept)) {
             $query->where('pegawai.kode_dept', 'like', '%' . $request->kode_dept);
         }
-        $pegawai = $query->paginate(3);
+        $pegawai = $query->paginate(5);
 
 
         $departemen = DB::table('departemen')->get();
@@ -40,7 +40,8 @@ class PegawaiController extends Controller
         $jabatan = $request->jabatan;
         $no_hp = $request->no_hp;
         $kode_dept = $request->kode_dept;
-        $password = Hash::make('12345');
+        // $password = Hash::make('12345'); //password default
+        $password = Hash::make($request->password);
         if ($request->hasFile('foto')) {
             $foto = $nuptk . "." . $request->file('foto')->getClientOriginalExtension();
         } else {
@@ -87,7 +88,8 @@ class PegawaiController extends Controller
         $jabatan = $request->jabatan;
         $no_hp = $request->no_hp;
         $kode_dept = $request->kode_dept;
-        $password = Hash::make('12345');
+        $password = Hash::make($request->password);
+        // $password = Hash::make('12345'); //password default
         $old_foto = $request->old_foto;
         if ($request->hasFile('foto')) {
             $foto = $nuptk . "." . $request->file('foto')->getClientOriginalExtension();

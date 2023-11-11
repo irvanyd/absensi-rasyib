@@ -102,6 +102,7 @@
                                                 <th>No. HP</th>
                                                 <th>Foto</th>
                                                 <th>Departemen</th>
+                                                <th>Password</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -125,6 +126,7 @@
                                                         @endif
                                                     </td>
                                                     <td>{{ $d->nama_dept }}</td>
+                                                    <td>Password</td>
                                                     <td>
                                                         <div class="btn-group">
                                                             <a href="#" class="edit btn btn-info btn-sm"
@@ -145,8 +147,8 @@
                                                                     <path d="M16 5l3 3"></path>
                                                                 </svg>
                                                             </a>
-                                                            <form action="/pegawai/{{ $d->nuptk }}/delete" method="POST"
-                                                                style="margin-left: 5px">
+                                                            <form action="/pegawai/{{ $d->nuptk }}/delete"
+                                                                method="POST" style="margin-left: 5px">
                                                                 @csrf
                                                                 <a class="btn btn-danger btn-sm delete-confirm">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -292,6 +294,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-icon mb-3">
+                                    <span class="input-icon-addon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-key"
+                                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                            stroke="currentColor" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path
+                                                d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z">
+                                            </path>
+                                            <path d="M15 9h.01"></path>
+                                        </svg>
+                                    </span>
+                                    <input type="text" value="" class="form-control" name="password"
+                                        id="password" placeholder="Password">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row mt-2">
                             <div class="col-12">
                                 <input type="file" name="foto" class="form-control">
@@ -387,6 +409,7 @@
                 var nama_lengkap = $("#nama_lengkap").val();
                 var jabatan = $("#jabatan").val();
                 var no_hp = $("#no_hp").val();
+                var password = $("#password").val();
                 var kode_dept = $("formPegawai").find("#kode_dept").val();
                 if (nuptk == "") {
                     Swal.fire({
@@ -426,6 +449,17 @@
                         confirmButtonText: 'ok'
                     }).then((result) => {
                         $("#no_hp").focus();
+                    });
+                    return false;
+                }
+                else if (password == "") {
+                    Swal.fire({
+                        title: 'Oops !',
+                        text: 'Password harus diisi',
+                        icon: 'warning',
+                        confirmButtonText: 'ok'
+                    }).then((result) => {
+                        $("#password").focus();
                     });
                     return false;
                 }
