@@ -13,8 +13,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Sign in with illustration - Tabler - Premium and Open Source dashboard template with responsive and high
-        quality UI.</title>
+    <title>Sign in | RADAR</title>
     <!-- CSS files -->
     <link href="{{ asset('tabler/dist/css/tabler.min.css?1692870487') }}" rel="stylesheet" />
     <link href="{{ asset('tabler/dist/css/tabler-flags.min.css?1692870487') }}" rel="stylesheet" />
@@ -41,38 +40,36 @@
             <div class="row align-items-center g-4">
                 <div class="col-lg">
                     <div class="container-tight">
-                        <div class="text-center mb-4">
+                        <div class="text-center mb-4" style="font-size:30px">
                             <a href="." class="navbar-brand navbar-brand-autodark"><img
-                                    src="{{ asset('tabler/static/logo.svg') }}" height="36" alt=""></a>
+                                    src="{{ asset('tabler/static/logomi.svg') }}" height="36">{{ ' RADAR' }}</a>
                         </div>
                         <div class="card card-md">
                             <div class="card-body">
-                                <h2 class="h2 text-center mb-4">Login to your account</h2>
+                                <h2 class="h2 text-center mb-4">Masuk ke akun Anda</h2>
                                 @if (Session::get('warning'))
-                                <div class="alert alert-warning">
-                                    <p>{{ Session::get('warning') }}</p>
-                                </div>
+                                    <div class="alert alert-warning">
+                                        <p>{{ Session::get('warning') }}</p>
+                                    </div>
                                 @endif
                                 <form action="/adminLoginProcess" method="post" autocomplete="off" novalidate>
                                     @csrf
                                     <div class="mb-3">
                                         <label class="form-label">Email address</label>
-                                        <input type="email" name="email" class="form-control" placeholder="your@email.com"
-                                            autocomplete="off">
+                                        <input type="email" name="email" class="form-control"
+                                            placeholder="your@email.com" autocomplete="off">
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">
                                             Password
-                                            <span class="form-label-description">
-                                                <a href="./forgot-password.html">I forgot password</a>
-                                            </span>
                                         </label>
                                         <div class="input-group input-group-flat">
-                                            <input type="password" name="password" class="form-control" placeholder="Your password"
-                                                autocomplete="off">
+                                            <input type="password" name="password" class="form-control"
+                                                id="passwordInput" placeholder="Your password" autocomplete="off">
                                             <span class="input-group-text">
                                                 <a href="#" class="link-secondary" title="Show password"
-                                                    data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                                                    data-bs-toggle="tooltip" id="togglePassword">
+                                                    <!-- Download SVG icon from http://tabler-icons.io/i/eye -->
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon"
                                                         width="24" height="24" viewBox="0 0 24 24"
                                                         stroke-width="2" stroke="currentColor" fill="none"
@@ -84,6 +81,7 @@
                                                     </svg>
                                                 </a>
                                             </span>
+
                                         </div>
                                     </div>
                                     <div class="mb-2">
@@ -114,3 +112,15 @@
 </body>
 
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePassword = document.getElementById('togglePassword');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+    });
+</script>

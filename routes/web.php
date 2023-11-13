@@ -45,6 +45,7 @@ Route::middleware(['auth:pegawai'])->group(function () {
     //presensi
     Route::get('/presensi/create', [presensiController::class, 'create']);
     Route::post('/presensi/store', [presensiController::class, 'store']);
+    Route::get('/presensi/lokasi', [presensiController::class, 'lokasi']);
 
     //edit profile
     Route::get('/editProfile', [presensiController::class, 'editProfile']);

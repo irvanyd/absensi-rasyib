@@ -34,8 +34,10 @@
                 <img src="{{ asset('assets/img/logomi.png') }}" alt="image" class="form-image">
             </div>
             <div class="section mt-1">
-                <h1>E Presensi</h1>
-                <h4>Silahkan Login</h4>
+                <P>
+                    <h1>RADAR</h1>
+                    <h4>Raudlatus Shibyan Digital Attendance and Reporting</h4><br>
+                </P>
             </div>
             <div class="section mt-1 mb-5">
                 
@@ -72,7 +74,7 @@
                     </div>
 
                     <div class="form-links mt-2">
-                        <div><a href="page-forgot-password.html" class="text-muted">Forgot Password?</a></div>
+                        <div><a href="https://wa.me/6285866185855" class="text-muted">Forgot Password?</a></div>
                     </div>
 
                     <div class="form-button-group">

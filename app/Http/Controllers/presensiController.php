@@ -250,6 +250,15 @@ class presensiController extends Controller
         return view('presensi.showmap', compact('presensi'));
     }
 
+    public function lokasi(Request $request)
+    {
+        $hariini = date("Y-m-d");
+        $nuptk = Auth::guard('pegawai')->user()->nuptk;
+        $cek = DB::table('presensi')->where('tgl_presensi', $hariini)->where('nuptk', $nuptk)->count();
+        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id', 1)->first();
+        return view('presensi.lokasi', compact('cek', 'lok_kantor'));
+    }
+
     public function laporan()
     {
         $namabulan = [
