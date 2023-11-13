@@ -361,6 +361,14 @@ class presensiController extends Controller
             ->groupBy('presensi.nuptk', 'nama_lengkap')
             ->get();
 
+        if (isset($_POST['exportexcel'])) {
+            $time = date("d-M-Y H:i:s");
+            // fungsi header dengan mengirimkan raw data excel
+            header("Content-type: application/vnd-ms-excel");
+            // mendefinisikan nama file ekspor "hasil-export.xls"
+            header("Content-Disposition: attachment; filename=Rekap Presensi Pegawai Rasyib $time.xls");
+        }
+
         return view('presensi.cetakRekap', compact('bulan', 'tahun', 'namabulan', 'rekap'));
     }
 
