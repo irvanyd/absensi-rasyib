@@ -58,6 +58,7 @@ Route::middleware(['auth:pegawai'])->group(function () {
     Route::get('/presensi/izin', [presensiController::class,'izin']);
     Route::get('/presensi/createIzin', [presensiController::class, 'createIzin']);
     Route::post('/presensi/storeIzin', [presensiController::class, 'storeIzin']);
+    Route::post('/presensi/cekPengajuan', [PresensiController::class,'cekPengajuan']);
 
 });
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengajuan_izin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,8 @@ class presensiController extends Controller
         $hariini = date("Y-m-d");
         $nuptk = Auth::guard('pegawai')->user()->nuptk;
         $cek = DB::table('presensi')->where('tgl_presensi', $hariini)->where('nuptk', $nuptk)->count();
-        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id',1)->first();
-        return view('presensi.create', compact('cek','lok_kantor'));
+        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id', 1)->first();
+        return view('presensi.create', compact('cek', 'lok_kantor'));
     }
 
     public function store(Request $request)
@@ -25,8 +26,8 @@ class presensiController extends Controller
         $nuptk = Auth::guard('pegawai')->user()->nuptk;
         $tgl_presensi = date('Y-m-d');
         $jam = date("H:i:s");
-        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id',1)->first();
-        $lok = explode(",",$lok_kantor->lokasi_kantor);
+        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id', 1)->first();
+        $lok = explode(",", $lok_kantor->lokasi_kantor);
         $latitudekantor = $lok[0];
         $longitudekantor = $lok[1];
         $lokasi = $request->lokasi;
@@ -359,17 +360,34 @@ class presensiController extends Controller
             ->whereRaw('YEAR(tgl_presensi)="' . $tahun . '"')
             ->groupBy('presensi.nuptk', 'nama_lengkap')
             ->get();
-        
-        return view('presensi.cetakRekap', compact('bulan','tahun','namabulan','rekap'));
+
+        return view('presensi.cetakRekap', compact('bulan', 'tahun', 'namabulan', 'rekap'));
     }
 
-    public function perizinan()
+    public function perizinan(Request $request)
     {
-        $perizinan = DB::table('pengajuan_izin')
-        ->join('pegawai', 'pengajuan_izin.nuptk', "=", 'pegawai.nuptk' )
-        ->orderBy('tgl_izin','desc')
-        ->get();
+        $query = Pengajuan_izin::query();
+        $query->select('id', 'tgl_izin', 'pengajuan_izin.nuptk', 'nama_lengkap', 'jabatan', 'status', 'status_pengajuan', 'keterangan');
+        $query->join('pegawai', 'pengajuan_izin.nuptk', '=', 'pegawai.nuptk');
+        if (!empty($request->dari) && !empty($request->sampai)) {
+            $query->whereBetween('tgl_izin', [$request->dari, $request->sampai]);
+        }
 
+        if (!empty($request->nuptk)) {
+            // $query->where('pengajuan_izin.nuptk', $request->nuptk);
+            $query->where('pengajuan_izin.nuptk', 'like', '%' . $request->nuptk . '%');
+        }
+
+        if (!empty($request->nama_pegawai)) {
+            $query->where('nama_lengkap', 'like', '%' . $request->nama_pegawai . '%');
+        }
+
+        if ($request->status_pengajuan === '0'|| $request->status_pengajuan === '1'|| $request->status_pengajuan === '2') {
+            $query->where('status_pengajuan', $request->status_pengajuan);
+        } 
+        $query->orderBy('tgl_izin', 'desc');
+        $perizinan = $query->paginate(5);
+        $perizinan->appends($request->all());
         return view('presensi.perizinan', compact('perizinan'));
     }
 
@@ -382,9 +400,9 @@ class presensiController extends Controller
         ]);
 
         if ($update) {
-            return Redirect::back()->with(['success'=>'Data berhasil diupdate']);
+            return Redirect::back()->with(['success' => 'Data berhasil diupdate']);
         } else {
-            return Redirect::back()->with(['warning'=>'Data gagal diupdate']);
+            return Redirect::back()->with(['warning' => 'Data gagal diupdate']);
         }
     }
 
@@ -395,10 +413,18 @@ class presensiController extends Controller
         ]);
 
         if ($update) {
-            return Redirect::back()->with(['success'=>'Data berhasil diupdate']);
+            return Redirect::back()->with(['success' => 'Data berhasil diupdate']);
         } else {
-            return Redirect::back()->with(['warning'=>'Data gagal diupdate']);
+            return Redirect::back()->with(['warning' => 'Data gagal diupdate']);
         }
+    }
+
+    public function cekPengajuan(Request $request)
+    {
+        $tgl_izin = $request->tgl_izin;
+        $nuptk = Auth::guard('pegawai')->user()->nuptk;
+        $cek = DB::table('pengajuan_izin')->where('nuptk', $nuptk)->where('tgl_izin', $tgl_izin)->count();
+        return $cek;
     }
 
 }

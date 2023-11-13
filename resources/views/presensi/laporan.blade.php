@@ -57,7 +57,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <select name="nuptk" id="nuptk" class="form-select">
-                                                <option value="">Pilih Karyawan</option>
+                                                <option value="">Pilih Pegawai</option>
                                                 @foreach ($pegawai as $d)
                                                     <option value="{{ $d->nuptk }}">{{ $d->nama_lengkap }}</option>
                                                 @endforeach
